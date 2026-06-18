@@ -1,0 +1,84 @@
+.history-container {
+  max-width: 650px;
+  margin: 30px auto;
+  padding: 0 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.history-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.btn-back {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 8px 15px;
+  border-radius: 12px;
+  cursor: pointer;
+  color: #666;
+  font-weight: 600;
+}
+
+.account-info h2 { margin: 0; color: #333; font-size: 22px; }
+.account-number-label { margin: 2px 0 0 0; color: #DA291C; font-weight: bold; font-family: monospace; }
+
+/* Estilo de la lista */
+.transactions-list {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+.transaction-item {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #f5f5f5;
+  transition: background 0.2s;
+}
+
+.transaction-item:hover { background-color: #fafafa; }
+
+/* Iconos dinámicos */
+.tx-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+  margin-right: 15px;
+}
+
+.tx-icon.deposit { background: #e8f5e9; color: #2e7d32; }
+.tx-icon.withdraw { background: #ffebee; color: #c62828; }
+.tx-icon.transfer { background: #fff3e0; color: #ef6c00; }
+
+.tx-details { flex-grow: 1; display: flex; flex-direction: column; }
+.tx-description { font-weight: 700; color: #333; font-size: 15px; }
+.tx-date { font-size: 12px; color: #999; }
+.tx-ref { font-size: 10px; color: #bbb; margin-top: 4px; }
+
+/* Montos */
+.tx-amount { text-align: right; font-weight: 800; font-size: 16px; }
+.tx-amount.positive { color: #2e7d32; }
+.tx-amount.negative { color: #c62828; }
+
+.tx-balance-after {
+  font-size: 11px;
+  color: #888;
+  font-weight: normal;
+  margin-top: 2px;
+}
+
+.empty-history {
+  text-align: center;
+  padding: 60px;
+  color: #999;
+}

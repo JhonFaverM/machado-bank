@@ -1,0 +1,80 @@
+<div class="container">
+  <header class="header">
+    <div class="title-group">
+      <h2>Cuenta ahorro</h2>
+      <p class="subtitle">Gestiona tus productos financieros</p>
+    </div>
+
+    <div class="header-actions">
+      <!-- Botón para mostrar/ocultar saldo -->
+      <button (click)="toggleBalance()" class="btn-icon-only" type="button">
+        {{ showBalance ? '👁️' : '🙈' }}
+      </button>
+
+      <!-- Solo muestra el botón si no hay cuentas -->
+      @if (accounts.length === 0 && !loading) {
+        <button (click)="createAccount()" class="btn-primary" type="button">
+          + Abrir mi cuenta única
+        </button>
+      }
+    </div>
+  </header>
+
+  <!-- Si está cargando -->
+  <div *ngIf="loading" class="loading-state">
+    <p>Un momento, cargando tus productos...</p>
+  </div>
+
+  <!-- Si no hay cuentas y terminó de cargar -->
+   <div class="empty-state" *ngIf="accounts.length === 0 && !loading">
+
+  <div class="empty-icon">🏦</div>
+
+  <h3>Abre tu primera cuenta</h3>
+
+  <p>
+    Empieza a gestionar tu dinero de forma segura y rápida con Machado Bank.
+  </p>
+
+  <button 
+    (click)="createAccount()" 
+    class="btn-create-account"
+    type="button"
+  >
+    Abrir mi cuenta ahora
+  </button>
+
+</div>
+
+  <!-- Grid de Cuentas -->
+  <div class="accounts-grid" *ngIf="!loading && accounts.length > 0">
+    <div class="account-card" *ngFor="let acc of accounts">
+      
+      <div class="card-header">
+        <span class="label">CUENTA DE AHORROS</span>
+        <span class="status-badge" [class.active]="acc.status === 'ACTIVE'">
+          {{ acc.status }}
+        </span>
+      </div>
+
+      <div class="card-body">
+        <p class="account-number">
+          Nº {{ formatAccountNumber(acc.accountNumber) }}
+        </p>
+        
+        <div class="balance-container">
+          <span class="balance-label">Saldo disponible</span>
+          <h3 class="balance-amount">
+            {{ showBalance ? (acc.balance | currency:'USD':'symbol-narrow':'1.0-0') : '*******' }}
+          </h3>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <button class="btn-detail" [routerLink]="['/history', acc.accountNumber]">
+          Ver movimientos
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

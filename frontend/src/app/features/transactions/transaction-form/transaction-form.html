@@ -1,0 +1,54 @@
+<div class="transaction-container">
+  <div class="form-card">
+    <!-- Título dinámico simplificado -->
+    <h2>
+      @if (operationType === 'TRANSFER') { Transferencia }
+      @else if (operationType === 'DEPOSIT') { Consignación }
+      @else { Retiro }
+    </h2>
+    
+    <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+
+      <!-- En la sección de Mi Cuenta -->
+      <div class="form-group">
+        <label>Mi Cuenta (Origen)</label>
+        <input type="text" 
+              formControlName="accountNumber" 
+              readonly 
+              class="readonly-input"
+              placeholder="Cargando cuenta...">
+      </div>
+
+      <!-- Cuenta Destino (Solo Transferencias) -->
+      @if (operationType === 'TRANSFER') {
+        <div class="form-group">
+          <label>Cuenta Destino</label>
+          <input type="text" formControlName="toAccountNumber" 
+                 [class.is-invalid]="transactionForm.get('toAccountNumber')?.invalid && transactionForm.get('toAccountNumber')?.touched"
+                 placeholder="Número de cuenta del beneficiario">
+          @if (transactionForm.get('toAccountNumber')?.invalid && transactionForm.get('toAccountNumber')?.touched) {
+            <small class="error-msg">Debes indicar la cuenta de destino</small>
+          }
+        </div>
+      }
+
+      <!-- Monto -->
+      <div class="form-group">
+        <label>Monto a {{ getLabelMonto() }}</label>
+        <input type="number" formControlName="amount" 
+               [class.is-invalid]="transactionForm.get('amount')?.invalid && transactionForm.get('amount')?.touched"
+               placeholder="$ 0.00">
+        @if (transactionForm.get('amount')?.errors?.['min'] && transactionForm.get('amount')?.touched) {
+          <small class="error-msg">El monto mínimo es de $1,000</small>
+        }
+      </div>
+
+      <div class="actions">
+        <button type="submit" [disabled]="transactionForm.invalid || loading" class="btn-submit">
+          {{ loading ? 'Procesando...' : 'Confirmar Operación' }}
+        </button>
+
+      </div>
+    </form>
+  </div>
+</div>

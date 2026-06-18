@@ -1,0 +1,51 @@
+<div class="history-container">
+  <header class="history-header">
+    <button routerLink="/dashboard" class="btn-back">← Volver</button>
+    <div class="account-info">
+      <h2>Movimientos de cuenta</h2>
+      <p class="account-number-label">Nº {{ accountNumber }}</p>
+    </div>
+  </header>
+
+  <!-- Estado de Carga -->
+  @if (loading) {
+    <div class="loader-container">
+      <div class="spinner"></div>
+      <p>Consultando movimientos...</p>
+    </div>
+  }
+
+  <!-- Lista de Transacciones -->
+  @if (!loading && transactions.length > 0) {
+    <div class="transactions-list">
+      <div class="transaction-item" *ngFor="let tx of transactions">
+        
+        <div class="tx-icon" [ngClass]="tx.type.toLowerCase()">
+          {{ tx.type === 'DEPOSIT' ? '↓' : (tx.type === 'WITHDRAW' ? '↑' : '⇄') }}
+        </div>
+
+        <div class="tx-details">
+          <span class="tx-description">
+            {{ getTransactionLabel(tx.type) }}
+          </span>
+          <span class="tx-date">{{ tx.createdAt | date:'dd MMM, yyyy - hh:mm a' }}</span>
+          <small class="tx-ref">Ref: {{ tx.referenceCode.substring(0,8) }}...</small>
+        </div>
+
+        <div class="tx-amount" [ngClass]="tx.type === 'DEPOSIT' ? 'positive' : 'negative'">
+          {{ tx.type === 'DEPOSIT' ? '+' : '-' }} {{ tx.amount | currency:'USD':'symbol-narrow':'1.0-0' }}
+          <div class="tx-balance-after">Saldo: {{ tx.balanceAfter | currency:'USD':'symbol-narrow':'1.0-0' }}</div>
+        </div>
+
+      </div>
+    </div>
+  }
+
+  <!-- Mensaje si no hay movimientos -->
+  @if (!loading && transactions.length === 0) {
+    <div class="empty-history">
+      <div class="empty-icon">📂</div>
+      <p>Aún no tienes movimientos registrados en esta cuenta.</p>
+    </div>
+  }
+</div>

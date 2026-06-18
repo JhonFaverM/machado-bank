@@ -1,0 +1,41 @@
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="logo-container">
+        <img 
+          src="/logo/logoMachado.png" 
+          alt="Machado Bank Logo"
+          class="logo-full"
+        />
+      </div>
+      
+      <p>Bienvenido a tu banca digital</p>
+    </div>
+
+    <form (ngSubmit)="login()" class="login-form">
+      <div class="input-group">
+        <label>Usuario</label>
+        <div class="input-wrapper">
+          <input type="text" placeholder="Ingresa tu usuario" [(ngModel)]="userName" name="username" required>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Contraseña</label>
+        <div class="input-wrapper">
+          <input type="password" placeholder="••••••••" [(ngModel)]="password" name="password" required>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-login">Ingresar</button>
+      
+      <div class="separator">
+        <span>¿No tienes cuenta?</span>
+      </div>
+
+      <button type="button" class="btn-register" routerLink="/register">
+        Crea tu cuenta aquí
+      </button>
+    </form>
+  </div>
+</div>

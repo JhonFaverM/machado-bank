@@ -1,0 +1,90 @@
+<div class="dashboard-page">
+  <div class="dashboard-content">
+    
+    <!-- Saludo Premium -->
+    <header class="welcome-header">
+      <div class="user-info">
+        <h1>Hola, <span>{{ userName }}</span></h1>
+        <p>Tu dinero está seguro. ¿Qué planeas hoy?</p>
+      </div>
+    
+      <div class="header-right">
+        <button (click)="onLogout()" class="btn-logout" title="Cerrar Sesión">
+          Cerrar Sesión
+        </button>
+        <div class="user-avatar">{{ userInitials }}</div>
+      </div>
+    </header>
+
+    <!-- Tarjeta de Saldo Estilo Glassmorphism -->
+    <section class="main-balance">
+      <!-- 1. Primero validamos si hay datos -->
+      @if (!loading && accounts.length > 0) {
+        <!-- 2. Como es cuenta única, tomamos la primera [0] o usamos el for -->
+        <div class="balance-card" *ngFor="let acc of accounts">
+          <div class="card-top">
+            <span class="product-name">CUENTA DE AHORROS PRINCIPAL</span>
+            <span class="card-chip"></span>
+          </div>
+          <div class="card-middle">
+            <!-- 3. Dinamizamos también los últimos dígitos -->
+            <p class="account-mask">Nº **** {{ acc.accountNumber.slice(-4) }}</p>
+            <h2 class="amount">
+              {{ showBalance ? (acc.balance | currency:'USD':'symbol-narrow':'1.0-0') : '*******' }}
+            </h2>
+          </div>
+          <div class="card-bottom">
+            <span class="status-indicator">● Saldo disponible</span>
+            <button (click)="toggleBalance()" class="btn-eye-toggle" type="button">
+             <img
+                [src]="showBalance 
+                  ? '/icons/ocultar.svg' 
+                  : '/icons/ver.svg'"
+                class="eye-icon"
+                 alt="Toggle Balance"
+              />
+            </button>
+          </div>
+        </div>
+      } @else if (!loading && accounts.length === 0) {
+        <!-- 4. Si no tiene cuenta aún, invitamos a crear una -->
+        <div class="no-account-card" routerLink="/account">
+          <p>Aún no tienes una cuenta activa.</p>
+          <span>Haz clic aquí para abrir tu cuenta única 🏦</span>
+        </div>
+      }
+    </section>
+
+    <!-- Panel de Operaciones -->
+    <section class="operations-panel">
+      <h3>Operaciones rápidas</h3>
+      <div class="actions-grid">
+        <div class="action-item" routerLink="/account">
+          <div class="icon-circle gray">
+            <img src="/icons/account.svg" class="quick-icon">
+          </div>
+          <span>Mis Cuentas</span>
+        </div>
+        <div class="action-item" [routerLink]="['/transaction', 'TRANSFER']">
+          <div class="icon-circle red">
+            <img src="/icons/transfer.svg" class="quick-icon">
+          </div>
+          <span>Transferir</span>
+        </div>
+        <div class="action-item" [routerLink]="['/transaction', 'DEPOSIT']">
+          <div class="icon-circle green">
+            <img src="/icons/deposit.svg" class="quick-icon">
+          </div>
+          <span>Depositar</span>
+        </div>
+        <div class="action-item" [routerLink]="['/transaction', 'WITHDRAW']">
+          <div class="icon-circle orange">
+            <img src="/icons/withdraw.svg" class="quick-icon">
+          </div>
+          <span>Retirar</span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>

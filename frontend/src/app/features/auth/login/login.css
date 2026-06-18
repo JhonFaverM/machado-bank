@@ -1,0 +1,139 @@
+.logo-full {
+  width: clamp(120px, 50%, 260px);
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f4f6f9;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  padding: 2rem;
+}
+
+.login-card {
+  background: #ffffff;
+  padding: 3rem;
+  border-radius: 28px;
+  box-shadow: 0 10px 40px rgba(17, 24, 39, 0.08);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  border: 1px solid #f1f5f9;
+}
+
+.login-header h2 {
+  color: #111827;
+  font-size: 2rem;
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.login-header p {
+  color: #6b7280;
+  margin-top: 0.6rem;
+  margin-bottom: 2.2rem;
+  font-size: 0.95rem;
+}
+
+.input-group {
+  text-align: left;
+  margin-bottom: 1.3rem;
+}
+
+.input-group label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+input {
+  width: 100%;
+  padding: 15px 16px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 14px;
+  font-size: 1rem;
+  transition: all 0.25s ease;
+  box-sizing: border-box;
+  background: #ffffff;
+  color: #111827;
+}
+
+input::placeholder {
+  color: #9ca3af;
+}
+
+input:focus {
+  border-color: #111827;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(17, 24, 39, 0.08);
+}
+
+.btn-login {
+  width: 100%;
+  background: linear-gradient(135deg, #111827 0%, #57504f 100%);
+  color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: all 0.25s ease;
+}
+
+.btn-login:hover {
+  background-color: #1f2937;
+  transform: translateY(-2px);
+}
+
+.separator {
+  margin: 2rem 0;
+  position: relative;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.separator span {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 0 12px;
+  color: #9ca3af;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.btn-register {
+  width: 100%;
+  background: linear-gradient(135deg, #111827 0%, #57504f 100%);
+  color: #ffffff;
+  border: 1.5px solid #d1d5db;
+  padding: 14px;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-register:hover {
+  background: #f9fafb;
+  border-color: #111827;
+  color: #111827;
+}

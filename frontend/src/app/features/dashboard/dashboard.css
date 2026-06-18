@@ -1,0 +1,213 @@
+.dashboard-page {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.dashboard-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Header */
+.welcome-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+}
+
+.welcome-header h1 {
+  font-size: 26px;
+  margin: 0;
+  color: #333;
+}
+
+.welcome-header span {
+  color: #111827;
+  font-weight: 800;
+}
+
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #111827 0%, #3a1613 100%);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+/* Balance Card Estilo Tarjeta Bancaria */
+.balance-card {
+  background: linear-gradient(135deg, #111827 0%, #a51b12 100%);
+  color: white;
+  padding: 30px;
+  border-radius: 28px;
+  margin-bottom: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.balance-card::after {
+  content: "";
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 150px;
+  height: 150px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.product-name {
+  font-size: 12px;
+  letter-spacing: 1px;
+  opacity: 0.9;
+}
+
+.account-mask {
+  font-family: 'Courier New', monospace;
+  margin: 15px 0 5px;
+  font-size: 16px;
+}
+
+.amount {
+  font-size: 36px;
+  margin: 0;
+  font-weight: 700;
+}
+
+.status-indicator {
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 5px 12px;
+  border-radius: 20px;
+  margin-top: 15px;
+  display: inline-block;
+}
+
+/* Botones de Acción */
+.operations-panel h3 {
+  font-size: 18px;
+  color: #444;
+  margin-bottom: 20px;
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+.action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.action-item:hover {
+  transform: translateY(-5px);
+}
+
+.action-item span {
+  font-size: 13px;
+  color: #666;
+  font-weight: 600;
+  text-align: center;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.btn-logout {
+  background: linear-gradient(135deg, #111827 0%, #a51b12 100%);
+  border: 1px solid #ddd;
+  color: #fffcfc;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-logout:hover {
+  background-color: #fff0f0;
+  color: #bfc4ce;
+  border-color: #111827;
+}
+
+
+.icon-circle {
+  width: 65px;
+  height: 65px;
+  border-radius: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  background: white;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+  transition: all 0.25s ease;
+}
+
+.quick-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  opacity: 0.9;
+  transition: all 0.25s ease;
+}
+
+.action-item:hover .icon-circle {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.10);
+}
+
+.action-item:hover .quick-icon {
+  transform: scale(1.08);
+  opacity: 1;
+}
+
+.card-bottom {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.btn-eye-toggle {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(6px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-eye-toggle:hover {
+  background: rgba(255, 255, 255, 0.18);
+  transform: scale(1.05);
+}
+
+.eye-icon {
+  width: 20px;
+  height: 20px;
+  opacity: 0.9;
+  filter: brightness(0) invert(1);
+}

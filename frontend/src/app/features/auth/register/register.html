@@ -1,0 +1,87 @@
+<div class="register-page">
+
+  <div class="register-card">
+
+    <div class="brand-section">
+      <h1>Machado Bank</h1>
+      <p>Tu banca digital segura y moderna</p>
+    </div>
+
+    <div class="form-section">
+
+      <h2>Crear cuenta</h2>
+
+      <form (ngSubmit)="register()" class="register-form">
+
+        <div class="form-group">
+          <label>Usuario</label>
+          <input
+            type="text"
+            [(ngModel)]="userName"
+            name="userName"
+            placeholder="Ingresa tu usuario"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input
+            type="password"
+            [(ngModel)]="password"
+            name="password"
+            placeholder="Ingresa tu contraseña"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Nombre completo</label>
+          <input
+            type="text"
+            [(ngModel)]="fullName"
+            name="fullName"
+            placeholder="Nombre y apellido"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Documento</label>
+          <input
+            type="text"
+            [(ngModel)]="documentNumber"
+            name="documentNumber"
+            placeholder="Número de documento"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Correo electrónico</label>
+          <input
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            placeholder="correo@ejemplo.com"
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn-register">
+          Crear cuenta
+        </button>
+
+      </form>
+
+      <div class="login-link">
+        <a routerLink="/login">
+          ¿Ya tienes cuenta? Inicia sesión
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
