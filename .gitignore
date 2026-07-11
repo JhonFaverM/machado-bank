@@ -1,10 +1,12 @@
-HELP.md
-target/
+# ==========================
+# Maven
+# ==========================
 .mvn/wrapper/maven-wrapper.jar
+
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
+### Spring Tool Suite
 .apt_generated
 .classpath
 .factorypath
@@ -19,6 +21,9 @@ target/
 *.iml
 *.ipr
 
+### VS Code ###
+.vscode/
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -26,15 +31,25 @@ target/
 /nbdist/
 /.nb-gradle/
 build/
+
 !**/src/main/**/build/
 !**/src/test/**/build/
-
-### VS Code ###
-.vscode/
 
 ### Angular & Node ###
 **/node_modules/
 **/dist/
 **/.angular/
+
+### Environment files
 .env
+.env.*
+*.env.
 .workspace
+
+### OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+### Logs
+*.log

@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.security.Key;
 import java.util.Date;
@@ -13,15 +14,21 @@ import java.util.Map;
 @Service
 public class JwtService {
 
-    private final String SECRET_KEY = "en_el_principio_era_el_verbo_y_el_verbo_era";
+    private static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hora
+
+    @Value("${app.jwt.secret}")
+    private String secretKey;
+
+    private Key getKey() {
+        return Keys.hmacShaKeyFor(secretKey.getBytes());
+    }
 
     public String generateToken(String username, Map<String, Object> extraClaims) {
         return Jwts.builder()
-                .setClaims(extraClaims) // Aquí se inyectan los Roles
+                .setClaims(extraClaims)
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                // 1000 * 60 * 60)) => 1 hora
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 60 minutos
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) // 60 minutos
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -38,9 +45,6 @@ public class JwtService {
                 .getBody();
     }
 
-    private Key getKey() {
-        return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
-    }
 
     public boolean isTokenValid(String token, String username) {
         return extractUsername(token).equals(username);

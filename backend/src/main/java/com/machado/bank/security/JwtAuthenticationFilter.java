@@ -1,19 +1,25 @@
 package com.machado.bank.security;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private static final Logger logger =
+            LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
     private final JwtService jwtService;
     private final CustomUserDetailsService userDetailsService;
@@ -40,11 +46,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = authHeader.substring(7);
 
         try {
+
             String username = jwtService.extractUsername(token);
 
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            if (username != null &&
+                    SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                UserDetails userDetails =
+                        userDetailsService.loadUserByUsername(username);
 
                 if (jwtService.isTokenValid(token, userDetails.getUsername())) {
 
@@ -55,17 +64,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     userDetails.getAuthorities()
                             );
 
-                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                    SecurityContextHolder.getContext()
+                            .setAuthentication(authToken);
+
+                    logger.debug("Usuario autenticado: {}",
+                            userDetails.getUsername());
                 }
             }
 
-            filterChain.doFilter(request, response);
+        } catch (ExpiredJwtException e) {
 
-        } catch (io.jsonwebtoken.ExpiredJwtException e) {
-            // token expirado → ignorar y continuar
-            System.out.println("JWT expirado, continuando sin autenticación...");
+            logger.warn("JWT expirado.");
+
+        } catch (Exception e) {
+
+            logger.error("Error autenticando JWT: {}", e.getMessage());
+
         }
 
-
+        filterChain.doFilter(request, response);
     }
 }

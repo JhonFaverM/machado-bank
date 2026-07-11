@@ -1,5 +1,6 @@
 package com.machado.bank.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -27,6 +28,7 @@ public class Account {
     @Column(nullable = false)
     private AccountStatus status = AccountStatus.ACTIVE; // ACTIVE, BLOCKED, CLOSED
 
+    @JsonIgnore
     @OneToOne  // Un cliente una cuenta
     @JoinColumn(name = "client_id", nullable = false, unique = true)   //Crea una llave foranea en la tabla accounts. en esta columna se guarda el ID del cliente para sabe de quien es la cuenta.
     private Client client;

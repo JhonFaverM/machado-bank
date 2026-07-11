@@ -1,6 +1,7 @@
 package com.machado.bank.controller;
 
 import com.machado.bank.model.Account;
+import com.machado.bank.model.Client;
 import com.machado.bank.service.AuthService;
 import com.machado.bank.service.IAccountService;
 import org.springframework.http.HttpStatus;
@@ -15,53 +16,58 @@ import java.util.Map;
 @RequestMapping("/api/accounts")
 public class AccountController {
 
-    private final IAccountService service;
+    private final IAccountService accountService;
     private final AuthService authService;
 
-    public AccountController(IAccountService service, AuthService authService) {
-        this.service = service;
+    public AccountController(IAccountService accountService,
+                             AuthService authService) {
+        this.accountService = accountService;
         this.authService = authService;
     }
 
     @PostMapping("/my-account")
     public ResponseEntity<Account> createAccount() {
 
-        var client = authService.getAuthenticatedClient();
+        Client client = authService.getAuthenticatedClient();
 
-        Account account = service.createAccount(client.getId());
+        Account account = accountService.createAccount(client.getId());
 
-        return new ResponseEntity<>(account, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(account);
     }
 
-    //Buscar cuenta por numero
     @GetMapping("/{accountNumber}")
-    public ResponseEntity<Account> getMyAccount(@PathVariable String accountNumber) {
-        var client = authService.getAuthenticatedClient();
-        Account account = service.findByAccountNumber(accountNumber, client.getId());
+    public ResponseEntity<Account> getMyAccount(
+            @PathVariable String accountNumber) {
+
+        Client client = authService.getAuthenticatedClient();
+
+        Account account = accountService.findByAccountNumber(
+                accountNumber,
+                client.getId()
+        );
         return ResponseEntity.ok(account);
     }
 
-    //Listar cuentas
     @GetMapping("/my-accounts")
     public ResponseEntity<List<Account>> getMyAccounts() {
 
-        var client = authService.getAuthenticatedClient();
+        Client client = authService.getAuthenticatedClient();
 
-        System.out.println("CLIENT ID: " + client.getId());
-
-        List<Account> accounts = service.findByClient(client.getId());
-
-        System.out.println("CUENTAS ENCONTRADAS: " + accounts.size());
+        List<Account> accounts = accountService.findByClient(client.getId());
 
         return ResponseEntity.ok(accounts);
     }
 
-    //Bloquear cuenta (seguridad/fraude)
-    // Bloquear cuenta
     @PatchMapping("/{accountNumber}/block")
-    public ResponseEntity<Map<String, String>> block(@PathVariable String accountNumber) {
-        var client = authService.getAuthenticatedClient();
-        Account account = service.blockAccount(accountNumber, client.getId());
+    public ResponseEntity<Map<String, String>> block(
+            @PathVariable String accountNumber) {
+
+        Client client = authService.getAuthenticatedClient();
+
+        Account account = accountService.blockAccount(
+                accountNumber,
+                client.getId()
+        );
 
         return ResponseEntity.ok(Map.of(
                 "message", "Cuenta " + account.getAccountNumber() + " bloqueada",
@@ -69,11 +75,16 @@ public class AccountController {
         ));
     }
 
-    // Activar cuenta
     @PatchMapping("/{accountNumber}/activate")
-    public ResponseEntity<Map<String, String>> activate(@PathVariable String accountNumber) {
-        var client = authService.getAuthenticatedClient();
-        Account account = service.activateAccount(accountNumber, client.getId());
+    public ResponseEntity<Map<String, String>> activate(
+            @PathVariable String accountNumber) {
+
+        Client client = authService.getAuthenticatedClient();
+
+        Account account = accountService.activateAccount(
+                accountNumber,
+                client.getId()
+        );
 
         return ResponseEntity.ok(Map.of(
                 "message", "Cuenta " + account.getAccountNumber() + " activada",
@@ -81,11 +92,16 @@ public class AccountController {
         ));
     }
 
-    // Cerrar cuenta
     @PatchMapping("/{accountNumber}/close")
-    public ResponseEntity<Map<String, String>> close(@PathVariable String accountNumber) {
-        var client = authService.getAuthenticatedClient();
-        Account account = service.closeAccount(accountNumber, client.getId());
+    public ResponseEntity<Map<String, String>> close(
+            @PathVariable String accountNumber) {
+
+        Client client = authService.getAuthenticatedClient();
+
+        Account account = accountService.closeAccount(
+                accountNumber,
+                client.getId()
+        );
 
         return ResponseEntity.ok(Map.of(
                 "message", "Cuenta " + account.getAccountNumber() + " cerrada",

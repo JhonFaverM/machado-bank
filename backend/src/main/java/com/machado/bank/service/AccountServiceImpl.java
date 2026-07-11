@@ -16,7 +16,8 @@ import java.util.UUID;
 @Service
 public class AccountServiceImpl implements IAccountService {
 
-    private static final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
+    private static final Logger logger =
+            LoggerFactory.getLogger(AccountServiceImpl.class);
 
     private final AccountRepository accountRepository;
     private final ClientRepository clientRepository;
@@ -27,8 +28,9 @@ public class AccountServiceImpl implements IAccountService {
         this.clientRepository = clientRepository;
     }
 
-    // 🔐 VALIDACIÓN DE OWNERSHIP (correcta)
+    // Valida que la cuenta pertenezca al cliente autenticado.
     private void validateOwnership(Account account, Long clientId) {
+
         if (!account.getClient().getId().equals(clientId)) {
             throw new SecurityException("No tienes acceso a esta cuenta");
         }
@@ -37,42 +39,53 @@ public class AccountServiceImpl implements IAccountService {
     @Override
     @Transactional
     public Account createAccount(Long clientId) {
-        // Nueva restricción: Validar duplicidad
+
         if (accountRepository.existsByClientId(clientId)) {
-            logger.error("Intento fallido de crear cuenta: El cliente {} ya posee una.", clientId);
+            logger.warn("El cliente {} ya posee una cuenta activa.", clientId);
             throw new IllegalStateException("Usted ya posee una cuenta activa en Machado Bank.");
         }
 
         Client client = clientRepository.findById(clientId)
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente no existe"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Cliente no existe"));
 
-        String accountNumber = UUID.randomUUID().toString();
-        Account account = new Account(accountNumber, client);
 
-        logger.info("Cuenta {} creada para cliente {}", accountNumber, clientId);
+        Account account = new Account(
+                UUID.randomUUID().toString(),
+                client
+        );
+
+        logger.info(
+                "Cuenta {} creada para cliente {}",
+                account.getAccountNumber(),
+                clientId);
 
         return accountRepository.save(account);
     }
 
-    // Bloquear cuenta
     @Override
     @Transactional
     public Account blockAccount(String accountNumber, Long clientId) {
+
         Account account = findByAccountNumber(accountNumber, clientId);
 
-        account.block(); // la entidad controla el estado
+        // la entidad controla el estado
+        account.block();
 
-        logger.warn("Cuenta {} bloqueada por cliente {}", accountNumber, clientId);
+        logger.warn("Cuenta {} bloqueada por cliente {}",
+                accountNumber,
+                clientId);
 
         return accountRepository.save(account);
     }
 
-    // Activar cuenta
     @Override
     @Transactional
     public Account activateAccount(String accountNumber, Long clientId) {
+
         Account account = findByAccountNumber(accountNumber, clientId);
 
+        // La entidad encapsula el cambio de estado.
         account.activate();
 
         logger.info("Cuenta {} activada por cliente {}", accountNumber, clientId);
@@ -80,23 +93,28 @@ public class AccountServiceImpl implements IAccountService {
         return accountRepository.save(account);
     }
 
-    // Cerrar cuenta
     @Override
     @Transactional
     public Account closeAccount(String accountNumber, Long clientId) {
+
         Account account = findByAccountNumber(accountNumber, clientId);
 
+        // La entidad encapsula el cambio de estado.
         account.close();
 
-        logger.error("Cuenta {} cerrada por cliente {}", accountNumber, clientId);
+        logger.info("Cuenta {} cerrada por cliente {}",
+                accountNumber,
+                clientId);
 
         return accountRepository.save(account);
     }
 
     @Override
     public Account findByAccountNumber(String accountNumber, Long clientId) {
+
         Account account = accountRepository.findByAccountNumber(accountNumber)
-                .orElseThrow(() -> new ResourceNotFoundException("Cuenta no encontrada"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Cuenta no encontrada"));
 
         validateOwnership(account, clientId);
 
@@ -105,15 +123,19 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public List<Account> findByClient(Long clientId) {
+
         if (!clientRepository.existsById(clientId)) {
             throw new ResourceNotFoundException("Cliente no existe");
         }
+
         return accountRepository.findByClientId(clientId);
     }
 
     @Override
     public Account findById(Long id) {
+
         return accountRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Cuenta no encontrada"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Cuenta no encontrada"));
     }
 }

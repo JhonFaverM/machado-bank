@@ -16,22 +16,25 @@ public class AuthService {
         this.userRepository = userRepository;
     }
 
-    // 1. Obtener username del usuario logueado
     public String getAuthenticatedUsername() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        Authentication auth = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
         return auth.getName();
     }
 
-    // 2. Obtener User completo desde DB
     public User getAuthenticatedUser() {
+
         String username = getAuthenticatedUsername();
 
         return userRepository.findByUserName(username)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() ->
+                        new RuntimeException("Usuario autenticado no encontrado"));
     }
 
-    // 3. Obtener Client asociado
     public Client getAuthenticatedClient() {
+
         User user = getAuthenticatedUser();
 
         if (user.getClient() == null) {
