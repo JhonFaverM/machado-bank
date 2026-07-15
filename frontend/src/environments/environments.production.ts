@@ -1,6 +1,6 @@
 // src/environments/environments.prod.ts
 export const environment = {
   production: true,
-  apiUrl: 'https://mi-api-java-en-produccion.com' 
-  // Aquí se pone la URL real de hosting gratis (Render)
+  apiUrl: 'https://machado-bank.onrender.com/api'
+  // Aqui ponemos la URL real de hosting al gratin (Render)
 };
