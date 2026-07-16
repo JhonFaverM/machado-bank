@@ -73,7 +73,11 @@ public class SecurityConfig {
 
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(List.of("http://localhost:4200"));
+        config.setAllowedOrigins(List.of(
+                "http://localhost:*",
+                "https://machado-bank.vercel.app"
+        ));
+
         config.setAllowedMethods(List.of(
                 "GET",
                 "POST",
@@ -81,6 +85,7 @@ public class SecurityConfig {
                 "DELETE",
                 "OPTIONS"
         ));
+
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
 
